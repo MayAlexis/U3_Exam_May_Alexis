@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.6127241246483793 -0.5506051336189929 -0.5669242752839997 4.215190424449112
-  position 0.01592048031757759 1.2164394034260948 -0.023211731917477066
+  orientation -0.0014923708661577831 0.9998768187209185 0.015624346825809193 2.9511622991668673
+  position 0.14156902613050315 0.1499267435671065 -0.7135678514089194
 }
 TexturedBackground {
 }
@@ -688,8 +688,8 @@ DEF OMNI_WHEELS Robot {
           ]
         }
         DEF D_1 DistanceSensor {
-          translation 0.12414352379567155 0.049999999999999996 0.034140747315516
-          rotation 0 1 0 -0.7853
+          translation 0.10739914455383583 0.049999999999999996 0.032035512758473925
+          rotation 0 1 0 -0.5235
           children [
             DEF S_SENSOR Shape {
               appearance PBRAppearance {
@@ -709,8 +709,8 @@ DEF OMNI_WHEELS Robot {
           resolution 1
         }
         DEF D_2 DistanceSensor {
-          translation 0.08878749078664822 0.05 0.07707315013791353
-          rotation 0 1 0 -0.7853
+          translation 0.08499914455383584 0.05 0.07034010757257649
+          rotation 0 1 0 -0.5235
           children [
             DEF S_SENSOR Shape {
               appearance PBRAppearance {
@@ -730,6 +730,8 @@ DEF OMNI_WHEELS Robot {
           resolution 1
         }
         DEF D_3 DistanceSensor {
+          translation 0 0.05 -0.11
+          rotation 0 1 0 1.5707
           children [
             DEF S_SENSOR Shape {
               appearance PBRAppearance {
@@ -749,6 +751,8 @@ DEF OMNI_WHEELS Robot {
           resolution 1
         }
         DEF D_4 DistanceSensor {
+          translation -0.09702282283061141 0.05 0.053038039698509114
+          rotation 0 1 0 0.5235003061004253
           children [
             DEF S_SENSOR Shape {
               appearance PBRAppearance {
