@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.0014923708661577831 0.9998768187209185 0.015624346825809193 2.9511622991668673
-  position 0.14156902613050315 0.1499267435671065 -0.7135678514089194
+  orientation 0.2676851619652523 0.959104573589445 0.0919949508584342 5.595046319674646
+  position -0.7291358082530408 0.471125965593905 1.5967162581209582
 }
 TexturedBackground {
 }
@@ -24,6 +24,8 @@ DEF OMNI_WHEELS Robot {
           device [
             RotationalMotor {
               name "wheel1"
+              maxVelocity 52.3598
+              maxTorque 0.5931
             }
           ]
           endPoint Solid {
@@ -287,6 +289,8 @@ DEF OMNI_WHEELS Robot {
           device [
             RotationalMotor {
               name "wheel2"
+              maxVelocity 52.4
+              maxTorque 0.5931
             }
           ]
           endPoint Solid {
@@ -483,6 +487,8 @@ DEF OMNI_WHEELS Robot {
           device [
             RotationalMotor {
               name "wheel3"
+              maxVelocity 52.4
+              maxTorque 0.5931
             }
           ]
           endPoint Solid {
@@ -793,5 +799,5 @@ DEF OMNI_WHEELS Robot {
   }
   physics Physics {
   }
-  controller "omni_wheels"
+  controller "onmiwheel"
 }
