@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.5916592672149205 -0.7829612283229228 -0.19212242571278138 5.496904579725858
-  position 0.840232491784068 0.80041668578661 1.239520802472503
+  orientation 0.9986680730436939 -0.04271052645388603 -0.02894634369358814 5.090697039701594
+  position 0.04732883140905775 2.3058193295574347 1.283269557266053
 }
 TexturedBackground {
 }
@@ -27,7 +27,8 @@ DEF OMNI_WHEELS Robot {
               maxVelocity 52.3598
               maxTorque 0.5931
             }
-            DEF encoder1 PositionSensor {
+            PositionSensor {
+              name "encoder1"
             }
           ]
           endPoint Solid {
@@ -496,7 +497,6 @@ DEF OMNI_WHEELS Robot {
               maxTorque 0.5931
             }
             PositionSensor {
-              name "encoder3"
             }
           ]
           endPoint Solid {
@@ -792,4 +792,21 @@ DEF OMNI_WHEELS Robot {
   physics Physics {
   }
   controller "onmiwheel"
+}
+Solid {
+  translation 0.7149999971070901 0.1 0.6045448250488208
+  rotation 0 1 0 5.759586513999999
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.9372549019607843 0.1607843137254902 0.1607843137254902
+      }
+      geometry DEF G_1 Box {
+        size 0.2 0.2 0.2
+      }
+    }
+  ]
+  boundingObject USE G_1
+  physics Physics {
+  }
 }
