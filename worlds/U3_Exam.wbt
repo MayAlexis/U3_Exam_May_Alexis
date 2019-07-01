@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.2676851619652523 0.959104573589445 0.0919949508584342 5.595046319674646
-  position -0.6609341609692951 0.4496451364017021 1.5092097067026677
+  orientation 0.5916592672149205 -0.7829612283229228 -0.19212242571278138 5.496904579725858
+  position 0.840232491784068 0.80041668578661 1.239520802472503
 }
 TexturedBackground {
 }
@@ -26,6 +26,8 @@ DEF OMNI_WHEELS Robot {
               name "wheel1"
               maxVelocity 52.3598
               maxTorque 0.5931
+            }
+            DEF encoder1 PositionSensor {
             }
           ]
           endPoint Solid {
@@ -292,6 +294,9 @@ DEF OMNI_WHEELS Robot {
               maxVelocity 52.4
               maxTorque 0.5931
             }
+            PositionSensor {
+              name "encoder2"
+            }
           ]
           endPoint Solid {
             translation 0 0 0.1
@@ -490,6 +495,9 @@ DEF OMNI_WHEELS Robot {
               maxVelocity 52.4
               maxTorque 0.5931
             }
+            PositionSensor {
+              name "encoder3"
+            }
           ]
           endPoint Solid {
             translation 0 0 0.1
@@ -674,7 +682,7 @@ DEF OMNI_WHEELS Robot {
       physics Physics {
       }
     }
-    DEF BODY Group {
+    DEF BODY_1 Group {
       children [
         DEF BODY_TRANS Transform {
           translation 0 0.03 0
@@ -710,7 +718,7 @@ DEF OMNI_WHEELS Robot {
           lookupTable [
             0 0 0
             0.02 0 0
-            5 1661 0
+            5 1660 0
           ]
           resolution 1
         }
@@ -731,7 +739,7 @@ DEF OMNI_WHEELS Robot {
           lookupTable [
             0 0 0
             0.02 0 0
-            5 1661 0
+            5 1660 0
           ]
           resolution 1
         }
@@ -752,7 +760,7 @@ DEF OMNI_WHEELS Robot {
           lookupTable [
             0 0 0
             0.02 0 0
-            5 1661 0
+            5 1660 0
           ]
           resolution 1
         }
@@ -773,30 +781,14 @@ DEF OMNI_WHEELS Robot {
           lookupTable [
             0 0 0
             0.02 0 0
-            5 1661 0
+            5 1660 0
           ]
           resolution 1
         }
       ]
     }
   ]
-  boundingObject DEF BODY_TRANS Transform {
-    translation 0 0.03 0
-    children [
-      Shape {
-        appearance PBRAppearance {
-          baseColor 0.564706 0.933333 0.564706
-          roughness 1
-          metalness 0
-        }
-        geometry Cylinder {
-          height 0.15
-          radius 0.1
-          subdivision 18
-        }
-      }
-    ]
-  }
+  boundingObject USE BODY_TRANS
   physics Physics {
   }
   controller "onmiwheel"
