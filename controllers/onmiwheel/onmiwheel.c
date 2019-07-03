@@ -19,7 +19,7 @@
  */
 #define TIME_STEP 64
 #define PI 3.141592
-#define OBSTACLE_DISTANCE 50.0
+#define OBSTACLE_DISTANCE 60.0
 
 
 enum {
@@ -27,6 +27,8 @@ enum {
   Manual,
   Go,
   Turn,
+  TurnL,
+  TurnR,
   left,
   right,
   FreeWay,
@@ -47,19 +49,19 @@ int checkForObstacles(WbDeviceTag distance_sensor) {
 }
 
 void goRobot(WbDeviceTag *wheels, double velocity) {
-  wb_motor_set_velocity(wheels[0], -velocity);
+  wb_motor_set_velocity(wheels[0],-velocity);
   wb_motor_set_velocity(wheels[1], velocity);
   wb_motor_set_velocity(wheels[2], 0);
 }
 
 void backRobot(WbDeviceTag *wheels) {
   wb_motor_set_velocity(wheels[0], 6);
-  wb_motor_set_velocity(wheels[1], -6);
+  wb_motor_set_velocity(wheels[1],-6);
   wb_motor_set_velocity(wheels[2], 0);
 }
 
 void leftRobot(WbDeviceTag *wheels) {
-  wb_motor_set_velocity(wheels[0], -6);
+  wb_motor_set_velocity(wheels[0],-6);
   wb_motor_set_velocity(wheels[1], 0);
   wb_motor_set_velocity(wheels[2], 6);
 }
@@ -67,7 +69,7 @@ void leftRobot(WbDeviceTag *wheels) {
 void rightRobot(WbDeviceTag *wheels) {
   wb_motor_set_velocity(wheels[0], 6);
   wb_motor_set_velocity(wheels[1], 0);
-  wb_motor_set_velocity(wheels[2], -6);
+  wb_motor_set_velocity(wheels[2],-6);
 }
 
 void stopRobot(WbDeviceTag *wheels) {
@@ -83,9 +85,9 @@ void turnLeft(WbDeviceTag *wheels) {
 }
 
 void turnRight(WbDeviceTag *wheels) {
-  wb_motor_set_velocity(wheels[0], -6);
-  wb_motor_set_velocity(wheels[1], -6);
-  wb_motor_set_velocity(wheels[2], -6);
+  wb_motor_set_velocity(wheels[0],-6);
+  wb_motor_set_velocity(wheels[1],-6);
+  wb_motor_set_velocity(wheels[2],-6);
 }
 
 double getAngleRobot(WbDeviceTag pos_sensor) {
@@ -108,15 +110,9 @@ int main(int argc, char **argv)
   
   int key;
   float velocity;
-  short int ds_state, robot_state = Go;
+  short int ds_state, ds_state1, robot_state = Go;
   float angle;
-
-  /*
-   * You should declare here WbDeviceTag variables for storing
-   * robot devices like this:
-   *  WbDeviceTag my_sensor = wb_robot_get_device("my_sensor");
-   *  WbDeviceTag my_actuator = wb_robot_get_device("my_actuator");
-   */
+  float dis1, dis2;
    
    WbDeviceTag wheels[2];
      wheels[0] = wb_robot_get_device("wheel1");
@@ -126,12 +122,16 @@ int main(int argc, char **argv)
    wb_motor_set_position (wheels[0], INFINITY);
    wb_motor_set_position (wheels[1], INFINITY);
    wb_motor_set_position (wheels[2], INFINITY);
+
+   WbDeviceTag DSensor[1];
+     DSensor[0] = wb_robot_get_device("DSENSOR_F1");
+     DSensor[1] = wb_robot_get_device("DSENSOR_F2");
+     
+   wb_distance_sensor_enable(DSensor[0], TIME_STEP);
+   wb_distance_sensor_enable(DSensor[1], TIME_STEP);
    
    WbDeviceTag encoder = wb_robot_get_device("encoder1");
    wb_position_sensor_enable(encoder, TIME_STEP);
-
-   WbDeviceTag dist_sensor = wb_robot_get_device("DSENSOR_F1");
-   wb_distance_sensor_enable(dist_sensor, TIME_STEP);
    
   /* 
    * main loop
@@ -139,7 +139,7 @@ int main(int argc, char **argv)
   while (wb_robot_step(TIME_STEP) != -1) {
 
      key = wb_keyboard_get_key();
-
+     
      if (key == G)
        state = Autonomous;
      else if (key == W)
@@ -155,26 +155,44 @@ int main(int argc, char **argv)
        
      if (state == Autonomous){
       if (robot_state == Go) {
-        ds_state = checkForObstacles(dist_sensor);
-
-        if (ds_state == FreeWay) {
+        ds_state = checkForObstacles(DSensor[0]);
+        ds_state1 = checkForObstacles(DSensor[1]);
+        
+        dis1 = wb_distance_sensor_get_value(DSensor[0]);
+        dis2 = wb_distance_sensor_get_value(DSensor[1]);
+        printf ("dis1 : %lf\n",dis1);
+        printf ("dis2 : %lf\n",dis2);
+        
+        if (ds_state == FreeWay && ds_state1 == FreeWay) {
           velocity = 8;
           goRobot(wheels, velocity);
-          angle = wb_position_sensor_get_value(encoder);
-          printf("Angle: %lf\n", angle);
-        } else if (ds_state == Obstacle) {
-            robot_state = Turn;
+        } else if (ds_state == Obstacle && ds_state1 == FreeWay) {
+            robot_state = TurnL;
             stopRobot(wheels);
-            initial_angle_wheel1 = wb_position_sensor_get_value(encoder);
+        } else if (ds_state == FreeWay && ds_state1 == Obstacle) {
+            robot_state = TurnR;
+            stopRobot(wheels);
+        } else if (ds_state == Obstacle && ds_state1 == Obstacle) {
+            robot_state = TurnL;
+            stopRobot(wheels);
         }
-      } else if (robot_state == Turn) {
-          turnRight(wheels);
-          angle = getAngleRobot(encoder);
-          if (angle >= PI) {
+      } else if (robot_state == TurnL) {
+          turnLeft(wheels);
+          ds_state = checkForObstacles(DSensor[0]);
+          ds_state1 = checkForObstacles(DSensor[1]);
+          if (ds_state == FreeWay && ds_state1 == FreeWay) {
             robot_state = Go;
             stopRobot(wheels);
           }
-        }
+      } else if (robot_state == TurnR) {
+          turnRight(wheels);
+          ds_state = checkForObstacles(DSensor[0]);
+          ds_state1 = checkForObstacles(DSensor[1]);
+          if (ds_state1 == FreeWay && ds_state == FreeWay) {
+            robot_state = Go;
+            stopRobot(wheels);
+          }
+      }     
      } else {
          if (key == WB_KEYBOARD_UP){
            velocity = 6;
@@ -210,7 +228,10 @@ int main(int argc, char **argv)
          } else {
              stopRobot(wheels);
          }
-           
+          dis1 = wb_distance_sensor_get_value(DSensor[0]);
+          dis2 = wb_distance_sensor_get_value(DSensor[1]);
+          printf ("dis1 : %lf\n",dis1);
+          printf ("dis2 : %lf\n",dis2);
        }
   }
 

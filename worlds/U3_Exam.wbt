@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.9986680730436939 -0.04271052645388603 -0.02894634369358814 5.090697039701594
-  position 0.04732883140905775 2.3058193295574347 1.283269557266053
+  orientation 0.2631740837943906 0.8993223016254318 0.34922600048982444 4.3328279456094725
+  position -3.717809263205592 3.8723626341419584 -1.2072389842407452
 }
 TexturedBackground {
 }
@@ -702,8 +702,8 @@ DEF OMNI_WHEELS Robot {
           ]
         }
         DEF D_1 DistanceSensor {
-          translation 0.10739914455383583 0.049999999999999996 0.032035512758473925
-          rotation 0 1 0 -0.5235
+          translation 0.11662417886764999 0.07999999999999999 0.014311550458618361
+          rotation 0 1 0 -0.4363
           children [
             DEF S_SENSOR Shape {
               appearance PBRAppearance {
@@ -723,8 +723,8 @@ DEF OMNI_WHEELS Robot {
           resolution 1
         }
         DEF D_2 DistanceSensor {
-          translation 0.08499914455383584 0.05 0.07034010757257649
-          rotation 0 1 0 -0.5235
+          translation 0.06926644471302822 0.08 0.09585407141817587
+          rotation 0 1 0 -0.6107
           children [
             DEF S_SENSOR Shape {
               appearance PBRAppearance {
@@ -743,48 +743,6 @@ DEF OMNI_WHEELS Robot {
           ]
           resolution 1
         }
-        DEF D_3 DistanceSensor {
-          translation 0 0.05 -0.11
-          rotation 0 1 0 1.5707
-          children [
-            DEF S_SENSOR Shape {
-              appearance PBRAppearance {
-                baseColor 0.4470588235294118 0.6235294117647059 0.8117647058823529
-              }
-              geometry Box {
-                size 0.015 0.02 0.043
-              }
-            }
-          ]
-          name "DSENSOR_R"
-          lookupTable [
-            0 0 0
-            0.02 0 0
-            5 1660 0
-          ]
-          resolution 1
-        }
-        DEF D_4 DistanceSensor {
-          translation -0.09702282283061141 0.05 0.053038039698509114
-          rotation 0 1 0 0.5235003061004253
-          children [
-            DEF S_SENSOR Shape {
-              appearance PBRAppearance {
-                baseColor 0.4470588235294118 0.6235294117647059 0.8117647058823529
-              }
-              geometry Box {
-                size 0.015 0.02 0.043
-              }
-            }
-          ]
-          name "DSENSOR_L"
-          lookupTable [
-            0 0 0
-            0.02 0 0
-            5 1660 0
-          ]
-          resolution 1
-        }
       ]
     }
   ]
@@ -794,19 +752,64 @@ DEF OMNI_WHEELS Robot {
   controller "onmiwheel"
 }
 Solid {
-  translation 0.7149999971070901 0.1 0.6045448250488208
-  rotation 0 1 0 5.759586513999999
+  translation 2 0.25 0
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.9372549019607843 0.1607843137254902 0.1607843137254902
+        baseColor 0 0 0
       }
-      geometry DEF G_1 Box {
-        size 0.2 0.2 0.2
+      geometry DEF G_M Box {
+        size 0.05 0.5 4
+      }
+    }
+    Solid {
+      translation -4 0 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 0
+          }
+          geometry USE G_M
+        }
+      ]
+      boundingObject USE G_M
+      physics Physics {
+      }
+    }
+    Solid {
+      translation -2 0 2
+      rotation 0 1 0 1.571
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 0
+          }
+          geometry USE G_M
+        }
+      ]
+      name "solid(1)"
+      boundingObject USE G_M
+      physics Physics {
+      }
+    }
+    Solid {
+      translation -2 0 -2
+      rotation 0 1 0 1.571
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 0
+          }
+          geometry USE G_M
+        }
+      ]
+      name "solid(2)"
+      boundingObject USE G_M
+      physics Physics {
       }
     }
   ]
-  boundingObject USE G_1
+  boundingObject USE G_M
   physics Physics {
   }
 }
