@@ -1,4 +1,4 @@
-build/release/onmiwheel.o: onmiwheel.c \
+build/release/U3_Exam_May_Alexis.o: U3_Exam_May_Alexis.c \
  /usr/local/webots/include/controller/c/webots/robot.h \
  /usr/local/webots/include/controller/c/webots/types.h \
  /usr/local/webots/include/controller/c/webots/nodes.h \
